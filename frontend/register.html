@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks">
+        <a href="/login.html" class="btn btn-outline btn-sm">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2>Join BloodLink</h2>
+        <p>Register as a Donor, Blood Seeker, or Hospital</p>
+      </div>
+
+      <div id="alertContainer"></div>
+
+      <form id="registerForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name / Hospital Name</label>
+            <input type="text" id="name" class="form-control" placeholder="e.g. Rahul Sharma" required>
+          </div>
+          <div class="form-group">
+            <label for="roleSelect">I want to register as</label>
+            <select id="roleSelect" class="form-control" required>
+              <option value="Donor">Donor</option>
+              <option value="Blood Seeker">Blood Seeker</option>
+              <option value="Hospital">Hospital</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" class="form-control" placeholder="email@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Mobile Number</label>
+            <input type="tel" id="phone" class="form-control" placeholder="9876543210" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" class="form-control" placeholder="e.g. Mumbai" required>
+          </div>
+          <div class="form-group">
+            <label for="area">Area / Locality</label>
+            <input type="text" id="area" class="form-control" placeholder="e.g. Andheri" required>
+          </div>
+        </div>
+
+        <!-- Dynamic Donor Fields -->
+        <div id="donorFields" class="donor-fields">
+          <div class="donor-fields-title">🩸 Donor Details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bloodGroupSelect">Blood Group</label>
+              <select id="bloodGroupSelect" class="form-control">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+" selected>O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="availabilitySelect">Availability</label>
+              <select id="availabilitySelect" class="form-control">
+                <option value="Available">Available</option>
+                <option value="Not Available">Not Available</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lastDonationDate">Last Donation Date (Optional)</label>
+            <input type="date" id="lastDonationDate" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Min. 6 chars" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Re-type password" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem; margin-top: 1rem;">
+          Complete Registration
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already have an account? <a href="/login.html">Login here</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

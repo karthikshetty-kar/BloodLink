@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar">⚙️</div>
+        <div class="sidebar-name">System Admin</div>
+        <div class="sidebar-role">Administrator</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/admin/dashboard.html" class="sidebar-link active"><span class="icon">📊</span> Dashboard Overview</a></li>
+        <li><a href="/admin/users.html" class="sidebar-link"><span class="icon">👥</span> Manage Users</a></li>
+        <li><a href="/admin/donors.html" class="sidebar-link"><span class="icon">🩸</span> Donors List</a></li>
+        <li><a href="/admin/hospitals.html" class="sidebar-link"><span class="icon">🏥</span> Hospitals List</a></li>
+        <li><a href="/admin/requests.html" class="sidebar-link"><span class="icon">🚨</span> Blood Requests</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>⚙️ System Administration Overview</h2>
+          <p>Global metrics, accounts oversight, and platform activity</p>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" style="margin-bottom: 2rem;">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-number" id="statTotalUsers">0</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🩸</div>
+          <div class="stat-number" id="statTotalDonors">0</div>
+          <div class="stat-label">Total Donors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-number" id="statAvailDonors">0</div>
+          <div class="stat-label">Available Donors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏥</div>
+          <div class="stat-number" id="statTotalHospitals">0</div>
+          <div class="stat-label">Total Hospitals</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-number" id="statActiveRequests">0</div>
+          <div class="stat-label">Active Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🚨</div>
+          <div class="stat-number" id="statEmergencyRequests">0</div>
+          <div class="stat-label">Emergency Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎉</div>
+          <div class="stat-number" id="statCompletedRequests">0</div>
+          <div class="stat-label">Fulfilled Requests</div>
+        </div>
+      </div>
+
+      <!-- Feature 5: Blood Group Distribution Analytics Chart -->
+      <div id="bloodGroupChartContainer" style="margin-bottom: 2rem;"></div>
+
+      <!-- Quick Admin Actions -->
+      <h3 style="margin-bottom: 1rem;">Management Modules</h3>
+      <div class="quick-actions">
+        <a href="/admin/users.html" class="action-card">
+          <div class="icon">👥</div>
+          <h4>User Management</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">View & disable accounts</p>
+        </a>
+        <a href="/admin/donors.html" class="action-card">
+          <div class="icon">🩸</div>
+          <h4>Donors Directory</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Inspect registered donors</p>
+        </a>
+        <a href="/admin/hospitals.html" class="action-card">
+          <div class="icon">🏥</div>
+          <h4>Hospitals Directory</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Inspect hospital accounts</p>
+        </a>
+        <a href="/admin/requests.html" class="action-card">
+          <div class="icon">🚨</div>
+          <h4>Blood Requests</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Monitor all requests</p>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', loadAdminDashboard);
+  </script>
+</body>
+</html>

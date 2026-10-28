@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donor Dashboard - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar" id="donorBg">O+</div>
+        <div class="sidebar-name" id="donorName">Loading...</div>
+        <div class="sidebar-role">Registered Donor</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/donor/dashboard.html" class="sidebar-link active"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="/donor/profile.html" class="sidebar-link"><span class="icon">👤</span> My Profile</a></li>
+        <li><a href="/donor/search.html" class="sidebar-link"><span class="icon">🔍</span> Search Donors</a></li>
+        <li><a href="/donor/requests.html" class="sidebar-link"><span class="icon">📥</span> Incoming Requests</a></li>
+        <li><a href="/donor/history.html" class="sidebar-link"><span class="icon">📜</span> Donation History</a></li>
+        <li><a href="/donor/notifications.html" class="sidebar-link"><span class="icon">🔔</span> Notifications</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="user-banner">
+        <div class="user-banner-info">
+          <h3>Welcome Back!</h3>
+          <div class="user-banner-meta">
+            <span>📍 Location: <strong id="donorCity">Loading...</strong></span>
+            <span>📅 Last Donation: <strong id="donorLastDate">N/A</strong></span>
+          </div>
+        </div>
+        <div>
+          <span style="font-size: 0.9rem; margin-right: 0.5rem; color: rgba(255,255,255,0.9);">Current Status:</span>
+          <button id="toggleAvailBtn" class="btn btn-sm btn-success">Available</button>
+        </div>
+      </div>
+
+      <!-- Feature 4: Donor Eligibility Banner & Medical Disclaimer -->
+      <div id="eligibilityBannerContainer"></div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" style="margin-bottom: 2rem;">
+        <div class="stat-card">
+          <div class="stat-icon">📥</div>
+          <div class="stat-number" id="incomingCount">0</div>
+          <div class="stat-label">Pending Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-number" id="acceptedCount">0</div>
+          <div class="stat-label">Accepted Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📜</div>
+          <div class="stat-number" id="totalHistoryCount">0</div>
+          <div class="stat-label">Total Interactions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔔</div>
+          <div class="stat-number" id="notifCount">0</div>
+          <div class="stat-label">Unread Alerts</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <h3 style="margin-bottom: 1rem;">Quick Actions</h3>
+      <div class="quick-actions">
+        <a href="/donor/profile.html" class="action-card">
+          <div class="icon">✏️</div>
+          <h4>Edit Profile</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Update group & location</p>
+        </a>
+        <a href="/donor/search.html" class="action-card">
+          <div class="icon">🔍</div>
+          <h4>Search Donors</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Find nearby blood donors</p>
+        </a>
+        <a href="/hospital/create-request.html" class="action-card">
+          <div class="icon">🚨</div>
+          <h4>Emergency Request</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Post a new blood request</p>
+        </a>
+        <a href="/donor/notifications.html" class="action-card">
+          <div class="icon">🔔</div>
+          <h4>View Notifications</h4>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Check system notifications</p>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/donor.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', loadDonorDashboard);
+  </script>
+</body>
+</html>

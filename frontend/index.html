@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloodLink - Connecting Blood Donors & Seekers</title>
+  <meta name="description" content="BloodLink connects blood donors directly with local hospitals and seekers in emergency situations.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo">
+        <span class="logo-icon">🩸</span> BloodLink
+      </a>
+      <ul class="nav-links">
+        <li><a href="/index.html" class="nav-link active">Home</a></li>
+        <li><a href="/donor/search.html" class="nav-link">Find Donors</a></li>
+        <li><a href="#how-it-works" class="nav-link">How it Works</a></li>
+        <li><a href="#compatibility" class="nav-link">Blood Types</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+        <li id="navDynamicLinks">
+          <a href="/login.html" class="nav-link">Login</a>
+          <a href="/register.html" class="btn btn-primary btn-sm">Register</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container">
+      <h1 class="hero-title">Every Drop Can Save a Life.</h1>
+      <p class="hero-subtitle">Connecting blood donors with people and hospitals who need them — quickly, safely, and locally.</p>
+      <div class="hero-buttons">
+        <a href="/donor/search.html" class="btn btn-primary btn-lg">🔍 Find Blood</a>
+        <a href="/register.html" class="btn btn-outline btn-lg">❤️ Become a Donor</a>
+        <a href="/hospital/create-request.html" class="btn btn-secondary btn-lg">🚨 Emergency Request</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Statistics Section -->
+  <section class="stats-section">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Platform Statistics</h2>
+        <p class="section-subtitle">Real-time stats driven directly by our verified database</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🩸</div>
+          <div class="stat-number" id="statDonors">0</div>
+          <div class="stat-label">Registered Donors</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🚨</div>
+          <div class="stat-number" id="statRequests">0</div>
+          <div class="stat-label">Active Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🤝</div>
+          <div class="stat-number" id="statFulfilled">0</div>
+          <div class="stat-label">Successful Connections</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🧪</div>
+          <div class="stat-number" id="statGroups">0</div>
+          <div class="stat-label">Blood Groups Available</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" style="padding: 4rem 2rem; background: #ffffff;">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">How BloodLink Works</h2>
+        <p class="section-subtitle">Simple, direct, and efficient blood donation management in 3 simple steps</p>
+      </div>
+      <div class="cards-grid">
+        <div class="card text-center">
+          <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">1️⃣</div>
+          <h3>Create an Account</h3>
+          <p style="color: var(--text-muted); margin-top: 0.5rem;">Register as a Blood Donor, Blood Seeker, or Hospital. Set your location and blood group details.</p>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">2️⃣</div>
+          <h3>Search & Match</h3>
+          <p style="color: var(--text-muted); margin-top: 0.5rem;">Create emergency blood requests or search for available donors based on city, area, and exact blood compatibility.</p>
+        </div>
+        <div class="card text-center">
+          <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;">3️⃣</div>
+          <h3>Notify & Fulfill</h3>
+          <p style="color: var(--text-muted); margin-top: 0.5rem;">Donors receive instant in-app alerts, accept donation requests, and hospitals mark requests as fulfilled.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blood Compatibility Guide -->
+  <section id="compatibility" style="padding: 4rem 2rem; background: var(--bg-light);">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Blood Group Compatibility</h2>
+        <p class="section-subtitle">Understand who can receive blood from whom</p>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Blood Type</th>
+              <th>Can Donate To</th>
+              <th>Can Receive From</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="blood-pill" style="width:32px; height:32px; font-size:0.9rem;">O-</span></td>
+              <td>Everyone (Universal Donor)</td>
+              <td>O-</td>
+            </tr>
+            <tr>
+              <td><span class="blood-pill" style="width:32px; height:32px; font-size:0.9rem;">O+</span></td>
+              <td>O+, A+, B+, AB+</td>
+              <td>O+, O-</td>
+            </tr>
+            <tr>
+              <td><span class="blood-pill" style="width:32px; height:32px; font-size:0.9rem;">A+</span></td>
+              <td>A+, AB+</td>
+              <td>A+, A-, O+, O-</td>
+            </tr>
+            <tr>
+              <td><span class="blood-pill" style="width:32px; height:32px; font-size:0.9rem;">AB+</span></td>
+              <td>AB+</td>
+              <td>Everyone (Universal Recipient)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" style="padding: 4rem 2rem; background: #ffffff;">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      <div style="max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+        <div class="card">
+          <h4>Who can donate blood?</h4>
+          <p style="color: var(--text-muted); margin-top: 0.4rem;">Any healthy adult aged 18-65 weighing at least 50kg who hasn't donated blood in the last 3 months.</p>
+        </div>
+        <div class="card">
+          <h4>Is my personal address exposed?</h4>
+          <p style="color: var(--text-muted); margin-top: 0.4rem;">No. BloodLink only displays your City and Area to protect user privacy.</p>
+        </div>
+        <div class="card">
+          <h4>How do notifications work?</h4>
+          <p style="color: var(--text-muted); margin-top: 0.4rem;">Donors receive in-app alerts whenever a matching emergency request is submitted in their area.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>🩸 BloodLink</h4>
+        <p style="font-size: 0.9rem;">Connecting blood donors with people in urgent need. A student full-stack web project.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/donor/search.html">Search Donors</a></li>
+          <li><a href="/register.html">Become a Donor</a></li>
+          <li><a href="/login.html">Login</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Support</h4>
+        <p style="font-size: 0.9rem;">Email: support@bloodlink.org</p>
+        <p style="font-size: 0.9rem;">Emergency Helpline: 1800-BLOOD-LINK</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 BloodLink Platform. Built with Vanilla JS, Node.js, Express & SQLite.
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await API.get('/admin/statistics');
+        if (res.success && res.statistics) {
+          document.getElementById('statDonors').textContent = res.statistics.totalDonors;
+          document.getElementById('statRequests').textContent = res.statistics.activeRequests;
+          document.getElementById('statFulfilled').textContent = res.statistics.completedRequests;
+          document.getElementById('statGroups').textContent = res.statistics.bloodGroupsAvailable;
+        }
+      } catch (err) {
+        console.error('Error fetching homepage stats:', err);
+      }
+    });
+  </script>
+</body>
+</html>

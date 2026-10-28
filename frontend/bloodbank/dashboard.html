@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Bank Dashboard - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar">🏦</div>
+        <div class="sidebar-name" id="bankNameDisplay">Blood Bank</div>
+        <div class="sidebar-role">Blood Bank Portal</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/bloodbank/dashboard.html" class="sidebar-link active"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="/bloodbank/inventory.html" class="sidebar-link"><span class="icon">🧪</span> Manage Inventory</a></li>
+        <li><a href="/bloodbank/requests.html" class="sidebar-link"><span class="icon">📋</span> Assigned Requests</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>🏦 Blood Bank Dashboard</h2>
+          <p id="bankSubtitle">Welcome back! Here's your current status.</p>
+        </div>
+        <a href="/bloodbank/requests.html" class="btn btn-primary">View Assigned Requests</a>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-value" id="statTotal">-</div>
+          <div class="stat-label">Total Assigned</div>
+        </div>
+        <div class="stat-card urgent">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-value" id="statPending">-</div>
+          <div class="stat-label">Awaiting Response</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-icon">✅</div>
+          <div class="stat-value" id="statFulfilled">-</div>
+          <div class="stat-label">Fully Fulfilled</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🧪</div>
+          <div class="stat-value" id="statUnits">-</div>
+          <div class="stat-label">Total Units in Stock</div>
+        </div>
+      </div>
+
+      <!-- Inventory Summary -->
+      <div class="section-card">
+      <div class="section-header section-header-row">
+    <h3>🧪 Current Inventory</h3>
+    <a href="/bloodbank/inventory.html" class="btn btn-outline btn-sm">Update Inventory</a>
+</div>
+        <div id="inventoryGrid" class="inventory-grid">
+          <div class="loading-state">Loading inventory...</div>
+        </div>
+      </div>
+
+      <!-- Pending Requests Alert -->
+      <div class="section-card" id="pendingSection" style="display:none;">
+       <div class="section-header section-header-row">
+    <h3>🚨 Requests Awaiting Your Response</h3>
+    <a href="/bloodbank/requests.html" class="btn btn-primary btn-sm">Respond Now</a>
+</div>
+        <div id="pendingRequestsList"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = protectRoute(['Blood Bank']);
+      if (!user) return;
+
+      // Set bank name
+      document.getElementById('bankNameDisplay').textContent = user.bankName || user.name || 'Blood Bank';
+      document.getElementById('bankSubtitle').textContent = `${user.bankName || user.name} — ${user.area}, ${user.city}`;
+
+      try {
+        // Load dashboard stats
+        const statsData = await API.get('/bloodbank/dashboard-stats');
+        if (statsData.success) {
+          const s = statsData.stats;
+          document.getElementById('statTotal').textContent = s.totalAssigned;
+          document.getElementById('statPending').textContent = s.pendingResponse;
+          document.getElementById('statFulfilled').textContent = s.fullyFulfilled;
+          document.getElementById('statUnits').textContent = s.totalUnitsInStock;
+
+          // Render inventory grid
+          const grid = document.getElementById('inventoryGrid');
+          if (s.inventory && s.inventory.length > 0) {
+            grid.innerHTML = s.inventory.map(item => `
+              <div class="blood-group-card ${item.units_available === 0 ? 'empty' : item.units_available < 5 ? 'low' : 'good'}">
+                <div class="bg-label">${item.blood_group}</div>
+                <div class="bg-units">${item.units_available}</div>
+                <div class="bg-sublabel">units</div>
+              </div>
+            `).join('');
+          } else {
+            grid.innerHTML = '<p class="text-muted">No inventory data. <a href="/bloodbank/inventory.html">Update inventory</a></p>';
+          }
+
+          // Show pending requests alert if any
+          if (s.pendingResponse > 0) {
+            document.getElementById('pendingSection').style.display = 'block';
+            document.getElementById('pendingRequestsList').innerHTML = `
+              <p class="alert alert-warning">
+                ⚠️ You have <strong>${s.pendingResponse}</strong> blood request(s) assigned to your bank awaiting your response.
+                Please respond as quickly as possible — patients depend on it.
+              </p>
+              <a href="/bloodbank/requests.html" class="btn btn-primary">Go to Requests</a>
+            `;
+          }
+        }
+      } catch (err) {
+        console.error('Error loading dashboard:', err);
+      }
+    });
+  </script>
+
+  <style>
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .blood-group-card {
+      text-align: center;
+      padding: 1rem 0.5rem;
+      border-radius: 12px;
+      border: 2px solid;
+    }
+    .blood-group-card.good { border-color: #22c55e; background: rgba(34,197,94,0.08); }
+    .blood-group-card.low { border-color: #f59e0b; background: rgba(245,158,11,0.08); }
+    .blood-group-card.empty { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+    .bg-label { font-size: 1.1rem; font-weight: 700; color: var(--text-primary, #1e293b); }
+    .bg-units { font-size: 1.8rem; font-weight: 800; margin: 0.2rem 0; }
+    .good .bg-units { color: #22c55e; }
+    .low .bg-units { color: #f59e0b; }
+    .empty .bg-units { color: #ef4444; }
+    .bg-sublabel { font-size: 0.7rem; color: var(--text-muted, #94a3b8); text-transform: uppercase; }
+    .alert-warning { background: rgba(245,158,11,0.1); border: 1px solid #f59e0b; color: #92400e; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+  </style>
+</body>
+</html>

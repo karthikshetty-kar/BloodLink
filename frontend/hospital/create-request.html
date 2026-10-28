@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Emergency Request - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar">🚨</div>
+        <div class="sidebar-name">New Request</div>
+        <div class="sidebar-role">Blood Request Form</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/hospital/dashboard.html" class="sidebar-link"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="/hospital/create-request.html" class="sidebar-link active"><span class="icon">➕</span> Create Request</a></li>
+        <li><a href="/hospital/requests.html" class="sidebar-link"><span class="icon">📋</span> View Requests</a></li>
+        <li><a href="/hospital/donors.html" class="sidebar-link"><span class="icon">🔍</span> Find Donors</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>🚨 Post Emergency Blood Request</h2>
+          <p>Submitting a request will automatically alert matching donors in your city</p>
+        </div>
+      </div>
+
+      <div class="card" style="max-width: 750px;">
+        <div id="alertContainer"></div>
+
+        <form id="createRequestForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="hospitalNameInput">Hospital Name</label>
+              <input type="text" id="hospitalNameInput" class="form-control" placeholder="e.g. CityCare Hospital" required>
+            </div>
+            <div class="form-group">
+              <label for="bloodGroupInput">Blood Group Required</label>
+              <select id="bloodGroupInput" class="form-control" required>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+" selected>O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="unitsInput">Units Required</label>
+              <input type="number" id="unitsInput" class="form-control" min="1" max="20" value="1" required>
+            </div>
+            <div class="form-group">
+              <label for="urgencyInput">Urgency Level</label>
+              <select id="urgencyInput" class="form-control" required>
+                <option value="Normal">Normal</option>
+                <option value="Urgent">Urgent</option>
+                <option value="Emergency" selected>Emergency 🚨</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cityInput">City</label>
+              <input type="text" id="cityInput" class="form-control" placeholder="e.g. Mumbai" required>
+            </div>
+            <div class="form-group">
+              <label for="areaInput">Area / Locality</label>
+              <input type="text" id="areaInput" class="form-control" placeholder="e.g. Andheri" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="requiredDateInput">Required Date</label>
+            <input type="date" id="requiredDateInput" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label for="messageInput">Additional Notes / Instructions</label>
+            <textarea id="messageInput" class="form-control" rows="3" placeholder="Provide contact phone number, room number, or patient notes..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem;">
+            🩸 Post Blood Request
+          </button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/hospital.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initCreateRequestForm();
+      // Default date to today
+      document.getElementById('requiredDateInput').valueAsDate = new Date();
+    });
+  </script>
+</body>
+</html>

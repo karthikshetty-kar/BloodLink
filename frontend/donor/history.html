@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation History - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar">📜</div>
+        <div class="sidebar-name">Donation History</div>
+        <div class="sidebar-role">Past Contributions</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/donor/dashboard.html" class="sidebar-link"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="/donor/profile.html" class="sidebar-link"><span class="icon">👤</span> My Profile</a></li>
+        <li><a href="/donor/search.html" class="sidebar-link"><span class="icon">🔍</span> Search Donors</a></li>
+        <li><a href="/donor/requests.html" class="sidebar-link"><span class="icon">📥</span> Incoming Requests</a></li>
+        <li><a href="/donor/history.html" class="sidebar-link active"><span class="icon">📜</span> Donation History</a></li>
+        <li><a href="/donor/notifications.html" class="sidebar-link"><span class="icon">🔔</span> Notifications</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>📜 Donation History & Logs</h2>
+          <p>Comprehensive record of all donation requests you have accepted or completed</p>
+        </div>
+      </div>
+
+      <div id="donorRequestsList">
+        <!-- Loaded dynamically via requests.js -->
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/requests.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', loadDonorRequestsList);
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donor Profile - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar">👤</div>
+        <div class="sidebar-name">My Profile</div>
+        <div class="sidebar-role">Donor Profile Settings</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/donor/dashboard.html" class="sidebar-link"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="/donor/profile.html" class="sidebar-link active"><span class="icon">👤</span> My Profile</a></li>
+        <li><a href="/donor/search.html" class="sidebar-link"><span class="icon">🔍</span> Search Donors</a></li>
+        <li><a href="/donor/requests.html" class="sidebar-link"><span class="icon">📥</span> Incoming Requests</a></li>
+        <li><a href="/donor/history.html" class="sidebar-link"><span class="icon">📜</span> Donation History</a></li>
+        <li><a href="/donor/notifications.html" class="sidebar-link"><span class="icon">🔔</span> Notifications</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h2>Donor Profile Settings</h2>
+          <p>Update your personal info, location, blood group, and availability status</p>
+        </div>
+      </div>
+
+      <div class="card" style="max-width: 700px;">
+        <div id="alertContainer"></div>
+
+        <form id="donorProfileForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profileName">Full Name</label>
+              <input type="text" id="profileName" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="profilePhone">Phone Number</label>
+              <input type="tel" id="profilePhone" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profileCity">City</label>
+              <input type="text" id="profileCity" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="profileArea">Area / Locality</label>
+              <input type="text" id="profileArea" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profileBg">Blood Group</label>
+              <select id="profileBg" class="form-control" required>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="profileAvail">Availability Status</label>
+              <select id="profileAvail" class="form-control" required>
+                <option value="Available">Available</option>
+                <option value="Not Available">Not Available</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="profileLastDate">Last Donation Date</label>
+            <input type="date" id="profileLastDate" class="form-control">
+          </div>
+
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+            🔒 Privacy Note: BloodLink only displays your Blood Group, City, and Area to users looking for blood.
+          </p>
+
+          <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/donor.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', loadDonorProfileForm);
+  </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Donors - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <!-- Leaflet OpenStreetMap CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem; width: 100%;">
+    <div class="dashboard-header">
+      <div class="dashboard-title">
+        <h2>🔍 Search Available Blood Donors</h2>
+        <p>Filter active blood donors by blood group, city, area, and availability status</p>
+      </div>
+      <a href="/hospital/create-request.html" class="btn btn-primary">🚨 Create Emergency Request</a>
+    </div>
+
+    <!-- Filter Card -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <form id="searchForm" class="form-row" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); align-items: end;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filterBg">Blood Group</label>
+          <select id="filterBg" class="form-control">
+            <option value="">All Blood Groups</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filterCity">City</label>
+          <input type="text" id="filterCity" class="form-control" placeholder="e.g. Mumbai">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filterArea">Area</label>
+          <input type="text" id="filterArea" class="form-control" placeholder="e.g. Andheri">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filterAvail">Availability</label>
+          <select id="filterAvail" class="form-control">
+            <option value="Available" selected>Available Donors Only</option>
+            <option value="">All Statuses</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="filterUrgency">Priority Level</label>
+          <select id="filterUrgency" class="form-control">
+            <option value="Normal" selected>Normal Priority</option>
+            <option value="Emergency">🚨 Emergency Priority</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Search Donors</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Real Geographical Leaflet.js OpenStreetMap -->
+    <div id="nearbyDonorMapContainer" class="map-canvas-card" style="display: none; margin-bottom: 2rem; padding: 1.25rem;">
+      <div class="map-header" style="margin-bottom: 0.75rem;">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.15rem; color: var(--primary-dark);">🗺️ Geographical Donors & Requests Map</h3>
+        <span class="badge badge-info" style="font-size: 0.8rem;">📍 Privacy Protected (Approximate Area Proximity)</span>
+      </div>
+      <div id="leafletMap" style="width: 100%; height: 420px; border-radius: var(--radius-md); z-index: 1;"></div>
+    </div>
+
+    <!-- Search Results Grid -->
+    <div id="searchResults" class="cards-grid">
+      <!-- Loaded dynamically via donor.js -->
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/requests.js"></script>
+  <script src="/js/donor.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initDonorSearch);
+  </script>
+</body>
+</html>

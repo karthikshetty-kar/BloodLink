@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seeker Dashboard - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar">👤</div>
+        <div class="sidebar-name" id="seekerName">Blood Seeker</div>
+        <div class="sidebar-role">Blood Seeker Account</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/seeker/dashboard.html" class="sidebar-link active"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="/hospital/create-request.html" class="sidebar-link"><span class="icon">➕</span> Post Blood Request</a></li>
+        <li><a href="/donor/search.html" class="sidebar-link"><span class="icon">🔍</span> Search Donors & Map</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="user-banner">
+        <div class="user-banner-info">
+          <h3>Blood Seeker Portal</h3>
+          <div class="user-banner-meta">
+            <span>📍 Location: <strong id="seekerCity">Loading...</strong></span>
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <a href="/hospital/create-request.html" class="btn btn-outline btn-sm" style="color:#fff; border-color:#fff;">+ New Emergency Request</a>
+          <a href="/donor/search.html" class="btn btn-primary btn-sm">🗺️ Find Donors on Map</a>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" style="margin-bottom: 2rem;">
+        <div class="stat-card">
+          <div class="stat-icon">🚨</div>
+          <div class="stat-number" id="activeReqCount">0</div>
+          <div class="stat-label">Active Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎉</div>
+          <div class="stat-number" id="fulfilledReqCount">0</div>
+          <div class="stat-label">Fulfilled Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-number" id="totalReqCount">0</div>
+          <div class="stat-label">Total Posted</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🩸</div>
+          <div class="stat-number" id="availDonorsCount">0</div>
+          <div class="stat-label">Available City Donors</div>
+        </div>
+      </div>
+
+      <!-- Requests Table -->
+      <div class="section-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+          <h3 style="margin: 0;">My Emergency Blood Requests</h3>
+          <a href="/hospital/create-request.html" class="btn btn-primary btn-sm">+ Post Request</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Group</th>
+                <th>Units</th>
+                <th>Hospital / Location</th>
+                <th>Urgency</th>
+                <th>Status & Bank Info</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="seekerRequestsTable">
+              <tr><td colspan="7" class="text-center">Loading your requests...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = protectRoute(['Blood Seeker', 'Admin']);
+      if (!user) return;
+
+      document.getElementById('seekerName').textContent = user.name || 'Blood Seeker';
+      const loc = [user.area, user.city].filter(Boolean).join(', ');
+      document.getElementById('seekerCity').textContent = loc || 'Location set';
+
+      await loadSeekerDashboard(user);
+    });
+
+    async function loadSeekerDashboard(user) {
+      try {
+        const reqData = await API.get(`/requests?requester_id=${user.id}`);
+        if (reqData.success) {
+          const requests = reqData.requests || [];
+          document.getElementById('activeReqCount').textContent = requests.filter(r => r.status === 'Active' || r.status === 'Pending').length;
+          document.getElementById('fulfilledReqCount').textContent = requests.filter(r => r.status === 'Fulfilled').length;
+          document.getElementById('totalReqCount').textContent = requests.length;
+
+          renderSeekerRequestsTable(requests);
+        }
+
+        const donorData = await API.get(`/donors/search?city=${encodeURIComponent(user.city || '')}&availability=Available`);
+        if (donorData.success) {
+          document.getElementById('availDonorsCount').textContent = donorData.count;
+        }
+      } catch (err) {
+        console.error('Error loading seeker dashboard:', err);
+      }
+    }
+
+    function renderSeekerRequestsTable(requests) {
+      const tbody = document.getElementById('seekerRequestsTable');
+      if (!tbody) return;
+
+      if (!requests || requests.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="padding: 2rem; color: var(--text-muted, #64748b);">No blood requests submitted yet. Click "+ Post Request" if you need blood.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = requests.map(r => {
+        let bankInfo = `<small style="display:block;color:var(--text-muted,#94a3b8);font-size:0.75rem;">No bank stock available (Donor matching active)</small>`;
+        if (r.assigned_blood_bank_id) {
+          if (r.bank_response === 'Fully Available') {
+            bankInfo = `<small style="display:block;color:#16a34a;font-weight:600;font-size:0.75rem;">🏦 Bank: Fully Available</small>`;
+          } else if (r.bank_response === 'Partially Available') {
+            bankInfo = `<small style="display:block;color:#d97706;font-weight:600;font-size:0.75rem;">🏦 Bank: Partial (${r.confirmed_units || 0} confirmed)</small>`;
+          } else if (r.bank_response === 'Unavailable') {
+            bankInfo = `<small style="display:block;color:#dc2626;font-weight:600;font-size:0.75rem;">🏦 Bank: Unavailable (Donor fallback active)</small>`;
+          } else if (r.bank_response === 'Unable to Respond') {
+            bankInfo = `<small style="display:block;color:#dc2626;font-weight:600;font-size:0.75rem;">🏦 Bank: Unable to Respond</small>`;
+          } else {
+            bankInfo = `<small style="display:block;color:#2563eb;font-size:0.75rem;">🏦 Assigned to Bank ⏳ Awaiting Response</small>`;
+          }
+        }
+
+        const fallbackBadge = r.donor_fallback_active
+          ? `<span class="badge badge-warning" style="display:inline-block;margin-top:0.25rem;font-size:0.7rem;">⚡ Donor Fallback Active</span>`
+          : '';
+
+        const canEscalate = r.status !== 'Fulfilled' && r.status !== 'Cancelled' && (!r.bank_response || r.bank_response === 'Partially Available' || r.bank_response === 'Unavailable');
+
+        return `
+        <tr>
+          <td><strong>#${r.id}</strong></td>
+          <td><span class="blood-pill" style="width:34px; height:34px; font-size:0.9rem;">${r.blood_group}</span></td>
+          <td>
+            ${r.units_required} Unit(s)
+            ${r.confirmed_units > 0 ? `<small style="display:block;color:#16a34a;font-weight:600;">✓ ${r.confirmed_units} confirmed by bank</small>` : ''}
+            ${r.remaining_units > 0 ? `<small style="display:block;color:#d97706;font-weight:600;">⏳ ${r.remaining_units} still needed</small>` : ''}
+          </td>
+          <td>${r.hospital_name ? `<strong>${r.hospital_name}</strong><br>` : ''}${r.area || ''}, ${r.city || ''}</td>
+          <td><span class="badge ${r.urgency === 'Emergency' ? 'badge-danger' : r.urgency === 'Urgent' ? 'badge-warning' : 'badge-info'}">${r.urgency}</span></td>
+          <td>
+            <span class="badge ${r.status === 'Fulfilled' ? 'badge-success' : r.status === 'Active' ? 'badge-primary' : 'badge-warning'}">${r.status}</span>
+            ${bankInfo}
+            ${fallbackBadge}
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:0.35rem;">
+              ${r.status !== 'Fulfilled' ? `<button onclick="markRequestFulfilled(${r.id})" class="btn btn-success btn-sm">✓ Fulfilled</button>` : `<span style="color:var(--success,#16a34a); font-weight:600; font-size:0.85rem;">✓ Completed</span>`}
+              ${canEscalate ? `<button onclick="triggerDonorFallback(${r.id})" class="btn btn-outline btn-sm" style="font-size:0.75rem; padding:0.25rem 0.5rem;" title="Notify nearby donors directly">⚡ Alert Donors</button>` : ''}
+            </div>
+          </td>
+        </tr>
+      `}).join('');
+    }
+
+    async function markRequestFulfilled(requestId) {
+      if (!confirm(`Mark Request #${requestId} as Fulfilled?`)) return;
+      try {
+        const data = await API.put(`/requests/${requestId}`, { status: 'Fulfilled' });
+        if (data.success) {
+          alert(`Request #${requestId} has been marked as Fulfilled!`);
+          window.location.reload();
+        }
+      } catch (err) {
+        alert(err.message || 'Failed to update request.');
+      }
+    }
+
+    async function triggerDonorFallback(requestId) {
+      if (!confirm(`Trigger emergency donor alerts for Request #${requestId}? This will notify matching local donors.`)) return;
+      try {
+        const data = await API.post(`/requests/${requestId}/trigger-donor-fallback`, {});
+        if (data.success) {
+          alert(data.message || 'Donor fallback activated successfully!');
+          window.location.reload();
+        }
+      } catch (err) {
+        alert(err.message || 'Failed to trigger donor fallback.');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/auth.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks">
+        <a href="/register.html" class="btn btn-outline btn-sm">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-page">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2>Welcome Back</h2>
+        <p>Login to your BloodLink account</p>
+      </div>
+
+      <!-- Quick 1-Click Role Fill Buttons for Testing & College Review -->
+      <div style="margin-bottom: 1.25rem;">
+        <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.4rem;">
+          ⚡ Quick Demo Login Selector (Click to Fill):
+        </label>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+          <button type="button" class="btn btn-outline btn-sm" onclick="setDemoLogin('Hospital', 'hospital@citycare.com', '123456')">🏥 Hospital</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setDemoLogin('Blood Seeker', 'seeker@gmail.com', '123456')">👤 Seeker</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setDemoLogin('Blood Bank', 'bloodbank@mira.org', '123456')" style="border-color:#2563eb; color:#2563eb;">🏦 Blood Bank</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setDemoLogin('Donor', 'rahul@gmail.com', '123456')">🩸 Donor</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="setDemoLogin('Admin', 'admin@bloodlink.com', 'admin123')">🛡️ Admin</button>
+        </div>
+      </div>
+
+      <div id="alertContainer"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginRole">Account Role</label>
+          <select id="loginRole" class="form-control">
+            <option value="">-- Auto-Detect Role from Account --</option>
+            <option value="Hospital">🏥 Hospital</option>
+            <option value="Blood Seeker">👤 Blood Seeker</option>
+            <option value="Blood Bank">🏦 Blood Bank</option>
+            <option value="Donor">🩸 Blood Donor</option>
+            <option value="Admin">🛡️ System Admin</option>
+          </select>
+          <small style="color: var(--text-muted); font-size: 0.75rem;">Select role to validate your account type, or leave on auto-detect.</small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="e.g. hospital@citycare.com or bloodbank@mira.org" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <a href="/forgot-password.html" style="font-size: 0.85rem;">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem;">Login to Account</button>
+      </form>
+
+      <div class="auth-footer">
+        Don't have an account? <a href="/register.html">Register here</a>
+      </div>
+
+      <!-- Demo logins helper box for college review -->
+      <div style="margin-top: 1.5rem; background: #fff8f8; padding: 1rem; border-radius: var(--radius-sm); border: 1px dashed var(--primary-light); font-size: 0.82rem; line-height: 1.6;">
+        <strong style="color: var(--primary);">Verified Demo Logins:</strong><br>
+        • <strong>Hospital:</strong> <code>hospital@citycare.com</code> (Password: <code>123456</code>)<br>
+        • <strong>Blood Seeker:</strong> <code>seeker@gmail.com</code> (Password: <code>123456</code>)<br>
+        • <strong>Blood Bank:</strong> <code>bloodbank@mira.org</code> (Password: <code>123456</code>)<br>
+        • <strong>Blood Bank (Alt):</strong> <code>bloodbank@andheri.org</code> (Password: <code>123456</code>)<br>
+        • <strong>Donor:</strong> <code>rahul@gmail.com</code> (Password: <code>123456</code>)<br>
+        • <strong>Admin:</strong> <code>admin@bloodlink.com</code> (Password: <code>admin123</code>)
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    function setDemoLogin(role, email, pw) {
+      document.getElementById('email').value = email;
+      document.getElementById('password').value = pw;
+      const roleSel = document.getElementById('loginRole');
+      if (roleSel) roleSel.value = role;
+    }
+  </script>
+</body>
+</html>

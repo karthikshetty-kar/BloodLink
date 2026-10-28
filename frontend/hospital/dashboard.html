@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Dashboard - BloodLink</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/index.html" class="logo"><span class="logo-icon">🩸</span> BloodLink</a>
+      <div id="navDynamicLinks"></div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar">🏥</div>
+        <div class="sidebar-name" id="hospitalName">Hospital</div>
+        <div class="sidebar-role">Hospital Account</div>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/hospital/dashboard.html" class="sidebar-link active"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="/hospital/create-request.html" class="sidebar-link"><span class="icon">➕</span> Create Request</a></li>
+        <li><a href="/hospital/requests.html" class="sidebar-link"><span class="icon">📋</span> View Requests</a></li>
+        <li><a href="/hospital/donors.html" class="sidebar-link"><span class="icon">🔍</span> Find Donors</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="user-banner">
+        <div class="user-banner-info">
+          <h3>Hospital Management Center</h3>
+          <div class="user-banner-meta">
+            <span>📍 Location: <strong id="hospitalCity">Loading...</strong></span>
+          </div>
+        </div>
+        <a href="/hospital/create-request.html" class="btn btn-outline btn-sm" style="color:#fff; border-color:#fff;">+ New Emergency Request</a>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid" style="margin-bottom: 2rem;">
+        <div class="stat-card">
+          <div class="stat-icon">🚨</div>
+          <div class="stat-number" id="activeReqCount">0</div>
+          <div class="stat-label">Active Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎉</div>
+          <div class="stat-number" id="fulfilledReqCount">0</div>
+          <div class="stat-label">Fulfilled Requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-number" id="totalReqCount">0</div>
+          <div class="stat-label">Total Posted</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🩸</div>
+          <div class="stat-number" id="availDonorsCount">0</div>
+          <div class="stat-label">Available City Donors</div>
+        </div>
+      </div>
+
+      <!-- Recent Requests Table -->
+      <h3 style="margin-bottom: 1rem;">My Hospital's Blood Requests</h3>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Group</th>
+              <th>Units</th>
+              <th>Location</th>
+              <th>Urgency</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="hospitalRequestsTable">
+            <!-- Loaded dynamically via hospital.js -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/hospital.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', loadHospitalDashboard);
+  </script>
+</body>
+</html>
